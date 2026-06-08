@@ -42,7 +42,7 @@ Sobre la base del TP3 (que se mantiene: redundancia, heartbeats y failover) se a
 
 **Persistencia** (en el servidor central): ante un reinicio o caida, el primario recupera de disco la cola de espera, el historial de llamados de la pantalla y los intentos de re-notificacion de los puestos. El formato es configurable (`--formato json|xml|txt`). El estado se guarda en un unico archivo por combinacion cifrado+formato (p.ej. `data/estado.aes.json` o `data/estado.plano.txt`), **compartido** a proposito entre primario y secundario para que sobreviva al failover, y se escribe de forma **atomica** para evitar lecturas parciales. Solo el nodo activo persiste.
 
-**Seguridad**: el DNI viaja y se almacena cifrado con un esquema **simetrico**. El metodo se elige por configuracion (`AES`, `XOR`, `CESAR` o `VIGENERE`) y la **clave secreta** se lee de `shared/.env` (variable `<METODO>_KEY`). Todos los componentes (servidor, puestos, terminales y pantalla) deben usar el mismo metodo y clave para entenderse.
+**Seguridad**: el DNI viaja y se almacena cifrado con un esquema **simetrico**. El metodo se elige por configuracion (`AES`, `XOR`, `CESAR` o `VIGENERE`) y la **clave secreta** se lee de `shared/.env`. Todos los componentes (servidor, puestos, terminales y pantalla) deben usar el mismo metodo y clave para entenderse.
 
 Patrones de diseno GoF aplicados:
 
@@ -54,7 +54,7 @@ Patrones de diseno GoF aplicados:
 | Observer         | `IObservadorReplicacion` y los publicadores hacia pantalla/puestos                                  |
 | Facade           | `PersistenciaService` expone `guardar/leer` ocultando escritor y lector                             |
 
-- `servidor_central/` - suma los flags `--encrip AES|XOR|CESAR|VIGENERE` y `--formato json|xml|txt`. Sin `--encrip` persiste y comunica en claro; sin `--formato` usa `txt`.
+- `servidor_central/` - suma los flags `--encrip AES|XOR|CESAR|VIGENERE` y `--formato json|xml|txt`. Sin `--encrip` persiste y comunica en texto plano; sin `--formato` usa `json` por default.
 - `puesto_atencion/`, `terminal_registro/`, `pantalla/` - reciben el metodo de cifrado como argumento y leen la clave del `.env` compartido.
 
 ## Ejecucion (macOS)
