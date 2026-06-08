@@ -50,7 +50,6 @@ Patrones de diseno GoF aplicados:
 | ---------------- | --------------------------------------------------------------------------------------------------- |
 | Abstract Factory | `IFabricaPersistencia` (`FabricaJSON/XML/TXT`) crea la familia escritor + lector                    |
 | Strategy         | `IEstrategiaEncriptacion` con las estrategias `EncriptacionAES/XOR/Cesar/Vigenere`                  |
-| Factory Method   | `FabricaPersistenciaFactory.crear(formato)` selecciona la fabrica concreta                          |
 | Template Method  | `CanalMensajes` define el flujo y los hooks `alCable/delCable` que cifra `CanalMensajesEncriptados` |
 | Observer         | `IObservadorReplicacion` y los publicadores hacia pantalla/puestos                                  |
 | Facade           | `PersistenciaService` expone `guardar/leer` ocultando escritor y lector                             |
